@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tw-animate-css";
+@import "@fontsource-variable/geist";
 
 @theme {
   --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -23,9 +25,6 @@
     @apply bg-bg text-text-main font-sans antialiased;
   }
 }
-
-@import "tw-animate-css";
-@import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -148,4 +147,3 @@
     display: block !important;
   }
 }
-

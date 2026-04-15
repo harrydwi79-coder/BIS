@@ -156,7 +156,7 @@ export default function SuratTugasList({
                       </button>
                       {(user?.role === 'ADMIN' || (user?.role === 'ATASAN' && item.status === 'PENDING')) && (
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
+                          <DropdownMenuTrigger>
                             <Button variant="ghost" size="icon" className="h-8 w-8">
                               <MoreVertical className="h-4 w-4" />
                             </Button>
