@@ -15,7 +15,7 @@ import {
   X,
   Search
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from './ui/button';
 import { UserProfile } from '@/types';
 
 interface LayoutProps {

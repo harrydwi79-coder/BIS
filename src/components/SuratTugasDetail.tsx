@@ -16,10 +16,10 @@ import {
   Download,
   Printer
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import { Separator } from './ui/separator';
 import { SuratTugas, UserProfile } from '@/types';
 
 interface SuratTugasDetailProps {
