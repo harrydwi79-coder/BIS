@@ -1,0 +1,6 @@
+{
+  "name": "PTBSM - Sistem Manajemen Surat Tugas",
+  "description": "Aplikasi manajemen surat tugas perusahaan dengan fitur pembuatan, pengeditan, histori, dan otorisasi berbasis jabatan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
