@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: "AIzaSyAKaEyQjnpe0qkC7UQHiTv7X3uWEF5yJh4" });
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "AIzaSyAKaEyQjnpe0qkC7UQHiTv7X3uWEF5yJh4";
+const ai = new GoogleGenAI({ apiKey });
 
 export const generateSuratDescription = async (perihal: string, tempat: string) => {
   try {
