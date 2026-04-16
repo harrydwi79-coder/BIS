@@ -23,24 +23,24 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
     };
 
     return (
-      <div ref={ref} className="bg-white p-12 text-slate-900 font-serif w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none">
+      <div ref={ref} className="p-12 font-serif w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none" style={{ backgroundColor: '#ffffff', color: '#0f172a' }}>
         {/* Header */}
-        <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-8">
+        <div className="flex items-center justify-between border-b-2 pb-4 mb-8" style={{ borderColor: '#0f172a' }}>
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-2xl italic">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl italic" style={{ backgroundColor: '#2563eb', color: '#ffffff' }}>
               BSM
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tight">PT BERKARYA SINERGI MANDIRI</h1>
-              <p className="text-[10px] text-slate-600 max-w-[400px]">
+              <p className="text-[10px] max-w-[400px]" style={{ color: '#475569' }}>
                 Vivo Business Park Blok I No. 17 Jl. Pembangunan 3, Neglasari, Kota Tangerang Prov. Banten
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded-full border border-slate-900 flex items-center justify-center text-[8px]">A</div>
-            <div className="w-4 h-4 rounded-full border border-slate-900 flex items-center justify-center text-[8px]">D</div>
-            <div className="w-4 h-4 rounded-full border border-slate-900 flex items-center justify-center text-[8px]">S</div>
+            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>A</div>
+            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>D</div>
+            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>S</div>
           </div>
         </div>
 
@@ -54,13 +54,13 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         <div className="space-y-6 text-sm leading-relaxed">
           <p>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table className="w-full border-collapse border border-slate-300 text-center">
+          <table className="w-full border-collapse border text-center" style={{ borderColor: '#cbd5e1' }}>
             <thead>
-              <tr className="bg-slate-50">
-                <th className="border border-slate-300 py-2 px-4 font-bold">Nama</th>
-                <th className="border border-slate-300 py-2 px-4 font-bold">NIK</th>
-                <th className="border border-slate-300 py-2 px-4 font-bold">Jabatan</th>
-                <th className="border border-slate-300 py-2 px-4 font-bold">Departemen</th>
+              <tr style={{ backgroundColor: '#f8fafc' }}>
+                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Nama</th>
+                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>NIK</th>
+                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Jabatan</th>
+                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Departemen</th>
               </tr>
             </thead>
             <tbody>
@@ -68,20 +68,20 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td className="border border-slate-300 py-2 px-4">{p?.displayName || '-'}</td>
-                    <td className="border border-slate-300 py-2 px-4">{p?.nik || '-'}</td>
-                    <td className="border border-slate-300 py-2 px-4">{p?.position || '-'}</td>
-                    <td className="border border-slate-300 py-2 px-4">{p?.department || '-'}</td>
+                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.displayName || '-'}</td>
+                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.nik || '-'}</td>
+                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.position || '-'}</td>
+                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
               {/* Fill empty rows if needed to match template */}
               {[...Array(Math.max(0, 3 - surat.pegawaiIds.length))].map((_, i) => (
                 <tr key={`empty-${i}`}>
-                  <td className="border border-slate-300 py-2 px-4 h-8"></td>
-                  <td className="border border-slate-300 py-2 px-4 h-8"></td>
-                  <td className="border border-slate-300 py-2 px-4 h-8"></td>
-                  <td className="border border-slate-300 py-2 px-4 h-8"></td>
+                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
+                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
+                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
+                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
                 </tr>
               ))}
             </tbody>
@@ -117,7 +117,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
             <p className="mb-20 font-bold">Pelaksana Tugas,</p>
             <div className="relative inline-block">
               {/* Mock Signature */}
-              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 border-slate-900 rotate-[-5deg] opacity-20" />
+              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 rotate-[-5deg] opacity-20" style={{ borderColor: '#0f172a' }} />
               <p className="font-bold underline">{surat.pegawaiNames[0]}</p>
             </div>
           </div>
@@ -125,7 +125,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
             <p className="mb-20 font-bold">Pemberi Tugas,</p>
             <div className="relative inline-block">
               {/* Mock Signature */}
-              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 border-slate-900 rotate-[5deg] opacity-20" />
+              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 rotate-[5deg] opacity-20" style={{ borderColor: '#0f172a' }} />
               <p className="font-bold underline">{surat.approverName || '..........................'}</p>
             </div>
           </div>
