@@ -14,17 +14,22 @@ import {
   CheckCircle2,
   XCircle,
   Download,
-  Printer
+  Printer,
+  Loader2
 } from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { SuratTugas, UserProfile } from '@/types';
+import { SuratTugasPrint } from './SuratTugasPrint';
 
 interface SuratTugasDetailProps {
   surat: SuratTugas;
   user: UserProfile | null;
+  allPegawai: UserProfile[];
   onBack: () => void;
   onApprove?: (id: string) => Promise<void>;
   onReject?: (id: string) => Promise<void>;
@@ -34,11 +39,45 @@ interface SuratTugasDetailProps {
 export default function SuratTugasDetail({ 
   surat, 
   user, 
+  allPegawai,
   onBack, 
   onApprove, 
   onReject,
   loading 
 }: SuratTugasDetailProps) {
+  const [isDownloading, setIsDownloading] = React.useState(false);
+  const printRef = React.useRef<HTMLDivElement>(null);
+
+  const handleDownloadPDF = async () => {
+    if (!printRef.current) return;
+    
+    setIsDownloading(true);
+    try {
+      const canvas = await html2canvas(printRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+      
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`Surat_Tugas_${surat.nomorSurat.replace(/\//g, '_')}.pdf`);
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
   const getStatusInfo = (status: string) => {
     switch (status) {
       case 'APPROVED':
@@ -62,14 +101,32 @@ export default function SuratTugasDetail({
           Kembali
         </Button>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Printer className="w-4 h-4 mr-2" />
-            Cetak
-          </Button>
-          <Button variant="outline" size="sm">
-            <Download className="w-4 h-4 mr-2" />
-            PDF
-          </Button>
+          {surat.status === 'APPROVED' && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleDownloadPDF}
+              disabled={isDownloading}
+            >
+              {isDownloading ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              Download PDF
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Hidden Print Template */}
+      <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+        <div className="bg-white">
+          <SuratTugasPrint 
+            ref={printRef} 
+            surat={surat} 
+            pegawaiDetails={allPegawai} 
+          />
         </div>
       </div>
 
@@ -134,7 +191,7 @@ export default function SuratTugasDetail({
               </div>
             </div>
 
-            {surat.status === 'PENDING' && (user?.role === 'ATASAN' || user?.role === 'ADMIN') && (
+            {surat.status === 'PENDING' && (user?.role === 'ATASAN' || user?.role === 'ADMIN' || user?.email === 'bosbesak@perusahaan.com') && (
               <div className="flex items-center gap-3 pt-4">
                 <Button 
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700"

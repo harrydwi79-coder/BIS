@@ -18,6 +18,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { generateSuratDescription } from '@/services/geminiService';
+import { generateNomorSurat } from '@/lib/surat-utils';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -30,7 +31,9 @@ import {
   FormLabel, 
   FormMessage 
 } from './ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { SuratTugas, UserProfile } from '@/types';
+import { BRANCH_CODES, DEPT_CODES } from '@/constants';
 
 const formSchema = z.object({
   nomorSurat: z.string().min(5, 'Nomor surat minimal 5 karakter'),
@@ -39,6 +42,8 @@ const formSchema = z.object({
   tanggalMulai: z.string().min(1, 'Tanggal mulai harus diisi'),
   tanggalSelesai: z.string().min(1, 'Tanggal selesai harus diisi'),
   tempat: z.string().min(3, 'Tempat harus diisi'),
+  cabang: z.string().min(2, 'Cabang harus diisi'),
+  departemen: z.string().min(2, 'Departemen harus diisi'),
 });
 
 interface SuratTugasFormProps {
@@ -47,6 +52,7 @@ interface SuratTugasFormProps {
   onCancel: () => void;
   allPegawai: UserProfile[];
   loading: boolean;
+  nextSequence: number;
 }
 
 export default function SuratTugasForm({ 
@@ -54,7 +60,8 @@ export default function SuratTugasForm({
   onSubmit, 
   onCancel, 
   allPegawai,
-  loading 
+  loading,
+  nextSequence
 }: SuratTugasFormProps) {
   const [selectedPegawaiIds, setSelectedPegawaiIds] = React.useState<string[]>(
     initialData?.pegawaiIds || []
@@ -71,6 +78,8 @@ export default function SuratTugasForm({
       tanggalMulai: initialData?.tanggalMulai || '',
       tanggalSelesai: initialData?.tanggalSelesai || '',
       tempat: initialData?.tempat || '',
+      cabang: initialData?.cabang || '',
+      departemen: initialData?.departemen || '',
     },
   });
 
@@ -79,6 +88,16 @@ export default function SuratTugasForm({
       prev.includes(uid) ? prev.filter(id => id !== uid) : [...prev, uid]
     );
   };
+
+  const watchCabang = form.watch('cabang');
+  const watchDepartemen = form.watch('departemen');
+
+  React.useEffect(() => {
+    if (!initialData && watchCabang && watchDepartemen) {
+      const generated = generateNomorSurat(watchCabang, watchDepartemen, nextSequence);
+      form.setValue('nomorSurat', generated);
+    }
+  }, [watchCabang, watchDepartemen, nextSequence, initialData, form]);
 
   const handleGenerateAI = async () => {
     const perihal = form.getValues('perihal');
@@ -142,7 +161,7 @@ export default function SuratTugasForm({
                 <FormItem>
                   <FormLabel>Nomor Surat</FormLabel>
                   <FormControl>
-                    <Input placeholder="Contoh: 001/ST/HRD/2024" {...field} />
+                    <Input placeholder="Otomatis..." {...field} readOnly className="bg-slate-50 font-mono" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -195,11 +214,57 @@ export default function SuratTugasForm({
               control={form.control}
               name="tempat"
               render={({ field }) => (
-                <FormItem className="md:col-span-2">
+                <FormItem>
                   <FormLabel>Tempat / Lokasi Penugasan</FormLabel>
                   <FormControl>
                     <Input placeholder="Lokasi tujuan" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="cabang"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cabang</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih Cabang" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.keys(BRANCH_CODES).map(branch => (
+                        <SelectItem key={branch} value={branch}>{branch}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="departemen"
+              render={({ field }) => (
+                <FormItem className="md:col-span-2">
+                  <FormLabel>Departemen</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih Departemen" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.keys(DEPT_CODES).filter(d => d !== 'Parts').map(dept => (
+                        <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

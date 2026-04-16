@@ -31,7 +31,7 @@ export default function Layout({ children, user, onLogout, activeTab, setActiveT
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'ATASAN', 'PEGAWAI'] },
-    { id: 'buat', label: 'Buat Surat', icon: FileText, roles: ['ADMIN', 'ATASAN'] },
+    { id: 'buat', label: 'Pengajuan Surat Tugas', icon: FileText, roles: ['ADMIN', 'ATASAN', 'PEGAWAI'] },
     { id: 'histori', label: 'Histori', icon: History, roles: ['ADMIN', 'ATASAN', 'PEGAWAI'] },
     { id: 'pegawai', label: 'Data Pegawai', icon: Users, roles: ['ADMIN'] },
   ];

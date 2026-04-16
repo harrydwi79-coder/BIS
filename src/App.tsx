@@ -6,7 +6,14 @@
 import React from 'react';
 import { toast } from 'sonner';
 import { Toaster } from './components/ui/sonner';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut 
+} from 'firebase/auth';
 import { 
   collection, 
   onSnapshot, 
@@ -21,6 +28,7 @@ import {
   where
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { generateNomorSurat } from './lib/surat-utils';
 import Layout from './components/Layout';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -35,6 +43,7 @@ const MOCK_USER: UserProfile = {
   uid: 'admin123',
   displayName: 'Budi Santoso',
   email: 'budi@perusahaan.com',
+  nik: '202250000',
   role: 'ADMIN',
   position: 'Manager Operasional',
   department: 'Operasional',
@@ -43,10 +52,11 @@ const MOCK_USER: UserProfile = {
 
 const MOCK_PEGAWAI: UserProfile[] = [
   MOCK_USER,
-  { uid: 'u2', displayName: 'Siti Aminah', email: 'siti@perusahaan.com', role: 'PEGAWAI', position: 'Staff Admin', department: 'HRD', createdAt: Date.now() },
-  { uid: 'u3', displayName: 'Andi Wijaya', email: 'andi@perusahaan.com', role: 'ATASAN', position: 'Head of IT', department: 'IT', createdAt: Date.now() },
-  { uid: 'u4', displayName: 'Rina Kartika', email: 'rina@perusahaan.com', role: 'PEGAWAI', position: 'Software Engineer', department: 'IT', createdAt: Date.now() },
-  { uid: 'admin-bos', displayName: 'Bos Besak', email: 'bosbesak@perusahaan.com', role: 'ADMIN', position: 'Direktur Utama', department: 'Direksi', createdAt: Date.now() },
+  { uid: 'u2', displayName: 'Siti Aminah', email: 'siti@perusahaan.com', nik: '202250101', role: 'PEGAWAI', position: 'Staff Admin', department: 'HRD', createdAt: Date.now() },
+  { uid: 'u3', displayName: 'Andi Wijaya', email: 'andi@perusahaan.com', nik: '202250102', role: 'ATASAN', position: 'Head of IT', department: 'IT', createdAt: Date.now() },
+  { uid: 'u4', displayName: 'Rina Kartika', email: 'rina@perusahaan.com', nik: '202250182', role: 'PEGAWAI', position: 'Warehouse Crew', department: 'Parts', createdAt: Date.now() },
+  { uid: 'u5', displayName: 'Harry Sabdho', email: 'harry.sabdho@berkaryasenergimandiri.com', nik: '202250555', role: 'PEGAWAI', position: 'Staff Operasional', department: 'Operasional', createdAt: Date.now() },
+  { uid: 'admin-bos', displayName: 'Bos Besak', email: 'bosbesak@perusahaan.com', nik: '202250001', role: 'ADMIN', position: 'Direktur Utama', department: 'Direksi', createdAt: Date.now() },
 ];
 
 const MOCK_SURAT: SuratTugas[] = [
@@ -110,16 +120,28 @@ export default function App() {
       if (firebaseUser) {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          if (userDoc.exists()) {
-            setState({
-              user: userDoc.data() as UserProfile,
-              loading: false,
-              isAuthReady: true,
-            });
-          } else {
+            if (userDoc.exists()) {
+              const userData = userDoc.data() as UserProfile;
+              
+              // Force ADMIN role for Bos Besak if not already set
+              if (firebaseUser.email === 'bosbesak@perusahaan.com' && userData.role !== 'ADMIN') {
+                const updatedUser = { ...userData, role: 'ADMIN' as const };
+                await setDoc(doc(db, 'users', firebaseUser.uid), updatedUser);
+                setState({
+                  user: updatedUser,
+                  loading: false,
+                  isAuthReady: true,
+                });
+              } else {
+                setState({
+                  user: userData,
+                  loading: false,
+                  isAuthReady: true,
+                });
+              }
+            } else {
             // If user exists in Auth but not in Firestore (e.g. first time)
-            // This shouldn't happen with the current flow but good to handle
-            const newUser: UserProfile = {
+            let newUser: UserProfile = {
               uid: firebaseUser.uid,
               displayName: firebaseUser.displayName || 'User',
               email: firebaseUser.email || '',
@@ -128,6 +150,30 @@ export default function App() {
               department: 'Umum',
               createdAt: Date.now(),
             };
+
+            // Special handling for Harry Sabdho
+            if (firebaseUser.email === 'harry.sabdho@berkaryasenergimandiri.com') {
+              newUser = {
+                ...newUser,
+                displayName: 'Harry Sabdho',
+                position: 'Staff Operasional',
+                department: 'Operasional',
+                nik: '202250555'
+              };
+            }
+
+            // Special handling for Bos Besak
+            if (firebaseUser.email === 'bosbesak@perusahaan.com') {
+              newUser = {
+                ...newUser,
+                displayName: 'Bos Besak',
+                role: 'ADMIN',
+                position: 'Direktur Utama',
+                department: 'Direksi',
+                nik: '202250001'
+              };
+            }
+
             await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
             setState({
               user: newUser,
@@ -194,8 +240,32 @@ export default function App() {
     setState(prev => ({ ...prev, loading: true }));
     try {
       await signInWithEmailAndPassword(auth, email, pass);
+      toast.success('Berhasil masuk');
     } catch (error: any) {
       toast.error('Login gagal: ' + error.message);
+      setState(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  const handleRegister = async (email: string, pass: string) => {
+    setState(prev => ({ ...prev, loading: true }));
+    try {
+      await createUserWithEmailAndPassword(auth, email, pass);
+      toast.success('Akun berhasil dibuat');
+    } catch (error: any) {
+      toast.error('Pendaftaran gagal: ' + error.message);
+      setState(prev => ({ ...prev, loading: false }));
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setState(prev => ({ ...prev, loading: true }));
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      toast.success('Berhasil masuk dengan Google');
+    } catch (error: any) {
+      toast.error('Login Google gagal: ' + error.message);
       setState(prev => ({ ...prev, loading: false }));
     }
   };
@@ -212,8 +282,17 @@ export default function App() {
   const handleCreateSurat = async (data: any) => {
     setState(prev => ({ ...prev, loading: true }));
     try {
+      // Generate automatic number
+      const sequence = suratTugas.length + 1;
+      const nomorSurat = generateNomorSurat(
+        data.cabang || 'Jakarta',
+        data.departemen || 'Administrasi',
+        sequence
+      );
+
       const newSuratData = {
         ...data,
+        nomorSurat,
         pembuatId: state.user?.uid || '',
         pembuatName: state.user?.displayName || '',
         status: 'PENDING',
@@ -275,6 +354,8 @@ export default function App() {
       const currentSurat = suratTugas.find(s => s.id === id);
       await updateDoc(suratRef, {
         status: 'APPROVED',
+        approverId: state.user?.uid || '',
+        approverName: state.user?.displayName || '',
         history: [
           ...(currentSurat?.history || []),
           {
@@ -340,8 +421,13 @@ export default function App() {
   if (!state.user) {
     return (
       <>
-        <Login onLogin={handleLogin} loading={state.loading} />
-        <Toaster position="top-center" />
+        <Login 
+          onLogin={handleLogin} 
+          onRegister={handleRegister}
+          onGoogleLogin={handleGoogleLogin}
+          loading={state.loading} 
+        />
+        <Toaster position="top-center" richColors />
       </>
     );
   }
@@ -354,6 +440,7 @@ export default function App() {
         <SuratTugasDetail 
           surat={surat} 
           user={state.user} 
+          allPegawai={allPegawai}
           onBack={() => setViewingSuratId(null)}
           onApprove={handleApprove}
           onReject={handleReject}
@@ -370,6 +457,7 @@ export default function App() {
           onCancel={() => setEditingSuratId(null)}
           allPegawai={allPegawai}
           loading={state.loading}
+          nextSequence={suratTugas.indexOf(surat!) + 1}
         />
       );
     }
@@ -380,8 +468,10 @@ export default function App() {
           <Dashboard 
             user={state.user} 
             suratTugas={suratTugas} 
+            allPegawai={allPegawai}
             onNewSurat={() => setActiveTab('buat')}
             onViewSurat={setViewingSuratId}
+            onSubmitSurat={handleCreateSurat}
           />
         );
       case 'buat':
@@ -391,6 +481,7 @@ export default function App() {
             onCancel={() => setActiveTab('dashboard')}
             allPegawai={allPegawai}
             loading={state.loading}
+            nextSequence={suratTugas.length + 1}
           />
         );
       case 'histori':

@@ -9,6 +9,7 @@ export interface UserProfile {
   uid: string;
   displayName: string;
   email: string;
+  nik?: string;
   role: UserRole;
   position: string;
   department: string;
@@ -25,10 +26,14 @@ export interface SuratTugas {
   tanggalMulai: string; // ISO Date
   tanggalSelesai: string; // ISO Date
   tempat: string;
+  cabang?: string;
+  departemen?: string;
   pegawaiIds: string[]; // List of UIDs
   pegawaiNames: string[]; // Denormalized for easy search
   pembuatId: string;
   pembuatName: string;
+  approverId?: string;
+  approverName?: string;
   status: SuratTugasStatus;
   createdAt: number;
   updatedAt: number;

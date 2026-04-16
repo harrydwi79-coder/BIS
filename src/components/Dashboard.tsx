@@ -10,22 +10,96 @@ import {
   CheckCircle2, 
   AlertCircle,
   Plus,
-  ArrowRight
+  ArrowRight,
+  Building2,
+  Users,
+  Briefcase,
+  Send
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from './ui/card';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { toast } from 'sonner';
 import { SuratTugas, UserProfile } from '@/types';
+import { BRANCH_CODES, DEPT_CODES } from '@/constants';
+import { generateNomorSurat } from '@/lib/surat-utils';
 
 interface DashboardProps {
   user: UserProfile | null;
   suratTugas: SuratTugas[];
+  allPegawai: UserProfile[];
   onNewSurat: () => void;
   onViewSurat: (id: string) => void;
+  onSubmitSurat: (data: any) => Promise<void>;
 }
 
-export default function Dashboard({ user, suratTugas, onNewSurat, onViewSurat }: DashboardProps) {
+export default function Dashboard({ user, suratTugas, allPegawai, onNewSurat, onViewSurat, onSubmitSurat }: DashboardProps) {
+  const nextSequence = suratTugas.length + 1;
+
+  const [formData, setFormData] = React.useState({
+    cabang: '',
+    departemen: '',
+    pegawaiIds: [] as string[],
+    keterangan: '',
+    perihal: '',
+    nomorSurat: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  React.useEffect(() => {
+    if (formData.cabang && formData.departemen) {
+      const generated = generateNomorSurat(formData.cabang, formData.departemen, nextSequence);
+      setFormData(prev => ({ ...prev, nomorSurat: generated }));
+    }
+  }, [formData.cabang, formData.departemen, nextSequence]);
+
+  const handleQuickSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.cabang || !formData.departemen || formData.pegawaiIds.length === 0 || !formData.perihal) {
+      toast.error('Mohon lengkapi data surat tugas');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const selectedPegawaiNames = allPegawai
+        .filter(p => formData.pegawaiIds.includes(p.uid))
+        .map(p => p.displayName);
+
+      await onSubmitSurat({
+        nomorSurat: formData.nomorSurat,
+        perihal: formData.perihal,
+        deskripsi: formData.keterangan,
+        tempat: formData.cabang,
+        cabang: formData.cabang,
+        departemen: formData.departemen,
+        pegawaiIds: formData.pegawaiIds,
+        pegawaiNames: selectedPegawaiNames,
+        tanggalMulai: new Date().toISOString().split('T')[0],
+        tanggalSelesai: new Date().toISOString().split('T')[0],
+      });
+
+      setFormData({
+        cabang: '',
+        departemen: '',
+        pegawaiIds: [],
+        keterangan: '',
+        perihal: '',
+        nomorSurat: ''
+      });
+      toast.success('Surat tugas berhasil diajukan!');
+    } catch (error) {
+      toast.error('Gagal mengajukan surat tugas');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const stats = [
     { 
       label: 'Total Surat', 
@@ -229,6 +303,169 @@ export default function Dashboard({ user, suratTugas, onNewSurat, onViewSurat }:
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Quick Surat Tugas Form */}
+      <div className="space-y-6">
+        <div className="flex items-center gap-2">
+          <Plus className="w-5 h-5 text-accent" />
+          <h2 className="text-lg font-bold text-text-main">Input Surat Tugas Cepat</h2>
+        </div>
+        
+        <Card className="border-border shadow-sm overflow-hidden bg-white">
+          <CardHeader className="bg-slate-50/50 border-b border-border">
+            <CardTitle className="text-base">Formulir Penugasan Baru</CardTitle>
+            <CardDescription>Gunakan formulir ini untuk pengajuan surat tugas mendesak secara cepat.</CardDescription>
+          </CardHeader>
+          <form onSubmit={handleQuickSubmit}>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="perihal">Perihal / Judul Tugas</Label>
+                    <div className="relative">
+                      <FileText className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                      <Input 
+                        id="perihal" 
+                        placeholder="Contoh: Perbaikan Jaringan Cabang" 
+                        className="pl-10"
+                        value={formData.perihal}
+                        onChange={(e) => setFormData({...formData, perihal: e.target.value})}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="nomorSurat">Nomor Surat (Otomatis)</Label>
+                    <div className="relative">
+                      <FileText className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                      <Input 
+                        id="nomorSurat" 
+                        placeholder="Pilih Cabang & Dept..." 
+                        className="pl-10 bg-slate-50 font-mono"
+                        value={formData.nomorSurat}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="cabang">Cabang</Label>
+                      <div className="relative">
+                        <Building2 className="absolute left-3 top-3 h-4 w-4 text-slate-400 z-10" />
+                        <Select 
+                          onValueChange={(value) => setFormData({...formData, cabang: value})}
+                          value={formData.cabang}
+                        >
+                          <SelectTrigger className="pl-10">
+                            <SelectValue placeholder="Pilih Cabang" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Object.keys(BRANCH_CODES).map(branch => (
+                              <SelectItem key={branch} value={branch}>{branch}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="departemen">Departemen</Label>
+                      <div className="relative">
+                        <Briefcase className="absolute left-3 top-3 h-4 w-4 text-slate-400 z-10" />
+                        <Select 
+                          onValueChange={(value) => setFormData({...formData, departemen: value})}
+                          value={formData.departemen}
+                        >
+                          <SelectTrigger className="pl-10">
+                            <SelectValue placeholder="Pilih Dept" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Object.keys(DEPT_CODES).filter(d => d !== 'Parts').map(dept => (
+                              <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Pegawai yang Bertugas</Label>
+                    <div className="relative">
+                      <Users className="absolute left-3 top-3 h-4 w-4 text-slate-400 z-10" />
+                      <Select 
+                        value=""
+                        onValueChange={(value: string) => {
+                          if (!formData.pegawaiIds.includes(value)) {
+                            setFormData({...formData, pegawaiIds: [...formData.pegawaiIds, value]});
+                          }
+                        }}
+                      >
+                        <SelectTrigger className="pl-10">
+                          <SelectValue placeholder="Pilih Pegawai" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {allPegawai.map(p => (
+                            <SelectItem key={p.uid} value={p.uid}>
+                              {p.displayName} ({p.position})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    {/* Selected Pegawai Badges */}
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {formData.pegawaiIds.map(id => {
+                        const p = allPegawai.find(peg => peg.uid === id);
+                        return (
+                          <Badge key={id} variant="secondary" className="pl-2 pr-1 py-1 flex items-center gap-1">
+                            {p?.displayName}
+                            <button 
+                              type="button"
+                              onClick={() => setFormData({...formData, pegawaiIds: formData.pegawaiIds.filter(pid => pid !== id)})}
+                              className="hover:bg-slate-200 rounded-full p-0.5"
+                            >
+                              <Plus className="w-3 h-3 rotate-45" />
+                            </button>
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="keterangan">Keterangan Tambahan</Label>
+                    <Textarea 
+                      id="keterangan" 
+                      placeholder="Detail tugas atau instruksi khusus..." 
+                      className="min-h-[100px] resize-none"
+                      value={formData.keterangan}
+                      onChange={(e) => setFormData({...formData, keterangan: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="bg-slate-50/50 border-t border-border p-4 flex justify-end">
+              <Button 
+                type="submit" 
+                className="bg-accent hover:bg-accent/90 text-white font-bold px-8"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Mengirim...' : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Ajukan Surat Tugas
+                  </>
+                )}
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
       </div>
     </div>
   );

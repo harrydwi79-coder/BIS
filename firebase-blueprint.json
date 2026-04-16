@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["ADMIN", "ATASAN", "PEGAWAI"] },
+        "position": { "type": "string" },
+        "department": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "SuratTugas": {
+      "title": "SuratTugas",
+      "description": "Travel order document",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nomorSurat": { "type": "string" },
+        "perihal": { "type": "string" },
+        "deskripsi": { "type": "string" },
+        "tanggalMulai": { "type": "string" },
+        "tanggalSelesai": { "type": "string" },
+        "tempat": { "type": "string" },
+        "pegawaiIds": { "type": "array", "items": { "type": "string" } },
+        "pegawaiNames": { "type": "array", "items": { "type": "string" } },
+        "pembuatId": { "type": "string" },
+        "pembuatName": { "type": "string" },
+        "status": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profiles"
+    },
+    "/surat_tugas/{suratId}": {
+      "schema": "SuratTugas",
+      "description": "Collection of travel orders"
+    }
+  }
+}
