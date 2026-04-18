@@ -59,7 +59,7 @@ export default function SuratTugasDetail({
         logging: false,
       });
       
-      const imgData = canvas.toDataURL('image/png');
+      const imgData = canvas.toDataURL('image/jpeg', 0.8);
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -70,7 +70,7 @@ export default function SuratTugasDetail({
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
       pdf.save(`Surat_Tugas_${surat.nomorSurat.replace(/\//g, '_')}.pdf`);
     } catch (error) {
       console.error('PDF generation failed:', error);

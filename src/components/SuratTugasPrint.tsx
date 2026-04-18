@@ -23,30 +23,30 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
     };
 
     return (
-      <div ref={ref} className="p-12 font-serif w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none" style={{ backgroundColor: '#ffffff', color: '#0f172a' }}>
+      <div ref={ref} className="p-12 font-sans w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none" style={{ backgroundColor: '#ffffff', color: '#000000' }}>
         {/* Header */}
-        <div className="flex items-center justify-between border-b-2 pb-4 mb-8" style={{ borderColor: '#0f172a' }}>
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center font-bold text-2xl italic" style={{ backgroundColor: '#2563eb', color: '#ffffff' }}>
-              BSM
-            </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">PT BERKARYA SINERGI MANDIRI</h1>
-              <p className="text-[10px] max-w-[400px]" style={{ color: '#475569' }}>
-                Vivo Business Park Blok I No. 17 Jl. Pembangunan 3, Neglasari, Kota Tangerang Prov. Banten
-              </p>
-            </div>
+        <div className="flex items-center justify-between pb-4 mb-6">
+          <div className="w-24 h-16 rounded-full flex items-center justify-center font-bold text-2xl italic flex-shrink-0" style={{ backgroundColor: '#2563eb', color: '#ffffff' }}>
+            BSM
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>A</div>
-            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>D</div>
-            <div className="w-4 h-4 rounded-full border flex items-center justify-center text-[8px]" style={{ borderColor: '#0f172a' }}>S</div>
+          <div className="flex-1 text-center">
+            <h1 className="text-2xl font-bold tracking-tight underline border-slate-900 pb-1 inline-block" style={{ borderBottomWidth: '2px' }}>
+              PT BERKARYA SINERGI MANDIRI
+            </h1>
+          </div>
+          <div className="w-24 flex flex-col items-center justify-center flex-shrink-0">
+             <div className="flex items-center gap-1">
+              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>A</div>
+              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>D</div>
+              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>S</div>
+            </div>
+            <span className="text-[8px] mt-1 text-slate-600">Sinergi Group</span>
           </div>
         </div>
 
         {/* Title */}
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold underline decoration-1 underline-offset-4 mb-1">SURAT TUGAS</h2>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold mb-2">SURAT TUGAS</h2>
           <p className="text-sm font-bold">No. : {surat.nomorSurat}</p>
         </div>
 
@@ -54,13 +54,13 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         <div className="space-y-6 text-sm leading-relaxed">
           <p>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table className="w-full border-collapse border text-center" style={{ borderColor: '#cbd5e1' }}>
+          <table className="w-full border-collapse border border-black text-center text-sm" style={{ borderColor: '#000000' }}>
             <thead>
-              <tr style={{ backgroundColor: '#f8fafc' }}>
-                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Nama</th>
-                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>NIK</th>
-                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Jabatan</th>
-                <th className="border py-2 px-4 font-bold" style={{ borderColor: '#cbd5e1' }}>Departemen</th>
+              <tr>
+                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Nama</th>
+                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>NIK</th>
+                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Jabatan</th>
+                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Departement</th>
               </tr>
             </thead>
             <tbody>
@@ -68,41 +68,41 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.displayName || '-'}</td>
-                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.nik || '-'}</td>
-                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.position || '-'}</td>
-                    <td className="border py-2 px-4" style={{ borderColor: '#cbd5e1' }}>{p?.department || '-'}</td>
+                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.displayName || '-'}</td>
+                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.nik || '-'}</td>
+                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.position || '-'}</td>
+                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
               {/* Fill empty rows if needed to match template */}
-              {[...Array(Math.max(0, 3 - surat.pegawaiIds.length))].map((_, i) => (
+              {[...Array(Math.max(0, 4 - surat.pegawaiIds.length))].map((_, i) => (
                 <tr key={`empty-${i}`}>
-                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
-                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
-                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
-                  <td className="border py-2 px-4 h-8" style={{ borderColor: '#cbd5e1' }}></td>
+                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
+                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
+                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
+                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div className="space-y-2 mt-8">
+          <div className="space-y-1 mx-20 mt-8">
             <div className="flex gap-4">
-              <span className="w-40 flex justify-between">○ Tanggal Berangkat <span>:</span></span>
-              <span className="font-medium">{formatDate(surat.tanggalMulai)}</span>
+              <span className="w-36 flex justify-between">○ Tanggal Berangkat <span>:</span></span>
+              <span>{formatDate(surat.tanggalMulai)}</span>
             </div>
             <div className="flex gap-4">
-              <span className="w-40 flex justify-between">○ Tanggal Kembali <span>:</span></span>
-              <span className="font-medium">{formatDate(surat.tanggalSelesai)}</span>
+              <span className="w-36 flex justify-between">○ Tanggal Kembali <span>:</span></span>
+              <span>{formatDate(surat.tanggalSelesai)}</span>
             </div>
             <div className="flex gap-4">
-              <span className="w-40 flex justify-between">○ Tempat Tujuan <span>:</span></span>
-              <span className="font-medium">{surat.tempat}</span>
+              <span className="w-36 flex justify-between">○ Tempat Tujuan <span>:</span></span>
+              <span>{surat.tempat}</span>
             </div>
             <div className="flex gap-4">
-              <span className="w-40 flex justify-between">○ Keperluan <span>:</span></span>
-              <span className="font-medium">{surat.perihal}</span>
+              <span className="w-36 flex justify-between">○ Keperluan <span>:</span></span>
+              <span className="max-w-[300px]">{surat.perihal}</span>
             </div>
           </div>
 
@@ -112,21 +112,12 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         </div>
 
         {/* Signatures */}
-        <div className="mt-20 grid grid-cols-2 gap-20 text-center">
-          <div>
-            <p className="mb-20 font-bold">Pelaksana Tugas,</p>
-            <div className="relative inline-block">
-              {/* Mock Signature */}
-              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 rotate-[-5deg] opacity-20" style={{ borderColor: '#0f172a' }} />
-              <p className="font-bold underline">{surat.pegawaiNames[0]}</p>
-            </div>
-          </div>
-          <div>
-            <p className="mb-20 font-bold">Pemberi Tugas,</p>
-            <div className="relative inline-block">
-              {/* Mock Signature */}
-              <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-32 h-16 border-b-2 rotate-[5deg] opacity-20" style={{ borderColor: '#0f172a' }} />
-              <p className="font-bold underline">{surat.approverName || '..........................'}</p>
+        <div className="mt-24 flex justify-end">
+          <div className="text-center w-64">
+            <p className="mb-24">Pemberi Tugas,</p>
+            <div>
+              <p className="font-medium">{surat.approverName || 'Apriadi Firmansyah'}</p>
+              <p>Branch Manager</p>
             </div>
           </div>
         </div>
