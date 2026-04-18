@@ -15,7 +15,9 @@ import {
   XCircle,
   Download,
   Printer,
-  Loader2
+  Loader2,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -46,6 +48,7 @@ export default function SuratTugasDetail({
   loading 
 }: SuratTugasDetailProps) {
   const [isDownloading, setIsDownloading] = React.useState(false);
+  const [showPreview, setShowPreview] = React.useState(false);
   const printRef = React.useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = async () => {
@@ -102,24 +105,48 @@ export default function SuratTugasDetail({
         </Button>
         <div className="flex items-center gap-2">
           {surat.status === 'APPROVED' && (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleDownloadPDF}
-              disabled={isDownloading}
-            >
-              {isDownloading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Download className="w-4 h-4 mr-2" />
-              )}
-              Download PDF
-            </Button>
+            <>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setShowPreview(!showPreview)}
+              >
+                {showPreview ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
+                {showPreview ? 'Tutup Preview' : 'Preview Surat'}
+              </Button>
+              <Button 
+                variant="default" 
+                size="sm" 
+                onClick={handleDownloadPDF}
+                disabled={isDownloading}
+              >
+                {isDownloading ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4 mr-2" />
+                )}
+                Download PDF
+              </Button>
+            </>
           )}
         </div>
       </div>
 
-      {/* Hidden Print Template */}
+      {/* Tampilan Preview A4 */}
+      {showPreview && (
+        <div className="w-full overflow-x-auto bg-slate-100 p-8 rounded-xl border border-slate-200">
+          <div className="min-w-[800px] flex justify-center">
+            <div className="shadow-xl bg-white">
+              <SuratTugasPrint 
+                surat={surat} 
+                pegawaiDetails={allPegawai} 
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hidden Print Template for PDF Generation */}
       <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
         <div className="bg-white">
           <SuratTugasPrint 
@@ -130,7 +157,7 @@ export default function SuratTugasDetail({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${showPreview ? 'hidden' : ''}`}>
         <Card className="md:col-span-2 border-slate-200 shadow-sm overflow-hidden">
           <div className={`h-2 ${statusInfo.color.split(' ')[0]}`} />
           <CardHeader className="pb-4">
