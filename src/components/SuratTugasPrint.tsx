@@ -37,7 +37,25 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         }}
       >
         {/* Header */}
-        <div style={{ textAlign: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
+        <div style={{ position: 'relative', textAlign: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
+          {/* Posisi Logo di Kiri Atas */}
+          <img 
+            src="/logo-bsm.png" 
+            alt="Logo BSM" 
+            style={{ 
+              position: 'absolute', 
+              left: 0, 
+              top: '16px', 
+              width: '140px', 
+              height: 'auto', 
+              objectFit: 'contain' 
+            }} 
+            crossOrigin="anonymous"
+            onError={(e) => {
+              // Jika gambar tidak ada, sembunyikan agar tidak merusak PDF
+              e.currentTarget.style.display = 'none';
+            }}
+          />
           <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
             PT BERKARYA SINERGI MANDIRI
           </h1>
