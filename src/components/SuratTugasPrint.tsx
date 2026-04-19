@@ -23,29 +23,41 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
     };
 
     return (
-      <div ref={ref} className="p-12 font-sans w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none" style={{ backgroundColor: '#ffffff', color: '#000000' }}>
+      <div 
+        ref={ref} 
+        style={{ 
+          padding: '48px', 
+          fontFamily: 'sans-serif', 
+          width: '210mm', 
+          minHeight: '297mm', 
+          margin: '0 auto', 
+          backgroundColor: '#ffffff', 
+          color: '#000000',
+          boxSizing: 'border-box'
+        }}
+      >
         {/* Header */}
-        <div className="text-center pt-8 pb-4 mb-4">
-          <h1 className="text-2xl font-bold tracking-tight inline-block border-b-2 border-black pb-1 mb-2">
+        <div style={{ textAlign: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
             PT BERKARYA SINERGI MANDIRI
           </h1>
-          <h2 className="text-xl font-bold mb-4">SURAT TUGAS</h2>
-          <p className="text-sm font-bold">No. : {surat.nomorSurat}</p>
+          <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', marginTop: '8px' }}>SURAT TUGAS</h2>
+          <p style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>No. : {surat.nomorSurat}</p>
         </div>
 
         {/* Title / removed old title section to combine with header */}
 
         {/* Body */}
-        <div className="space-y-6 text-sm leading-relaxed">
-          <p>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
+        <div style={{ fontSize: '14px', lineHeight: '1.625' }}>
+          <p style={{ marginBottom: '24px' }}>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table className="w-full border-collapse border border-black text-center text-sm" style={{ borderColor: '#000000' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000000', textAlign: 'center', fontSize: '14px', borderColor: '#000000' }}>
             <thead>
               <tr>
-                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Nama</th>
-                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>NIK</th>
-                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Jabatan</th>
-                <th className="border border-black py-1 px-4 font-bold w-1/4" style={{ borderColor: '#000000' }}>Departement</th>
+                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Nama</th>
+                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>NIK</th>
+                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Jabatan</th>
+                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Departement</th>
               </tr>
             </thead>
             <tbody>
@@ -53,56 +65,56 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.displayName || '-'}</td>
-                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.nik || '-'}</td>
-                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.position || '-'}</td>
-                    <td className="border border-black py-1 px-4" style={{ borderColor: '#000000' }}>{p?.department || '-'}</td>
+                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.displayName || '-'}</td>
+                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.nik || '-'}</td>
+                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.position || '-'}</td>
+                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
               {/* Fill empty rows if needed to match template */}
               {[...Array(Math.max(0, 4 - surat.pegawaiIds.length))].map((_, i) => (
                 <tr key={`empty-${i}`}>
-                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
-                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
-                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
-                  <td className="border border-black py-1 px-4 h-6" style={{ borderColor: '#000000' }}></td>
+                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
+                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
+                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
+                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div className="space-y-1 mx-20 mt-8">
-            <div className="flex gap-4">
-              <span className="w-36 flex justify-between">○ Tanggal Berangkat <span>:</span></span>
+          <div style={{ margin: '32px 80px 0', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tanggal Berangkat <span>:</span></span>
               <span>{formatDate(surat.tanggalMulai)}</span>
             </div>
-            <div className="flex gap-4">
-              <span className="w-36 flex justify-between">○ Tanggal Kembali <span>:</span></span>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tanggal Kembali <span>:</span></span>
               <span>{formatDate(surat.tanggalSelesai)}</span>
             </div>
-            <div className="flex gap-4">
-              <span className="w-36 flex justify-between">○ Tempat Tujuan <span>:</span></span>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tempat Tujuan <span>:</span></span>
               <span>{surat.tempat}</span>
             </div>
-            <div className="flex gap-4">
-              <span className="w-36 flex justify-between">○ Keperluan <span>:</span></span>
-              <span className="max-w-[300px]">{surat.perihal}</span>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Keperluan <span>:</span></span>
+              <span style={{ maxWidth: '300px' }}>{surat.perihal}</span>
             </div>
           </div>
 
-          <p className="mt-8">
+          <p style={{ marginTop: '32px' }}>
             Demikian Surat Tugas ini dibuat untuk dapat dipergunakan sebagaimana mestinya, Atas kerjasamanya yang baik kami ucapkan terima kasih.
           </p>
         </div>
 
         {/* Signatures */}
-        <div className="mt-24 flex justify-end">
-          <div className="text-center w-64">
-            <p className="mb-24">Pemberi Tugas,</p>
-            <div>
-              <p className="font-medium">{surat.approverName || 'Apriadi Firmansyah'}</p>
-              <p>Branch Manager</p>
+        <div style={{ marginTop: '96px', display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ textAlign: 'center', width: '256px' }}>
+            <p style={{ marginBottom: '96px', margin: 0 }}>Pemberi Tugas,</p>
+            <div style={{ marginTop: '96px' }}>
+              <p style={{ fontWeight: '500', margin: 0 }}>{surat.approverName || 'Apriadi Firmansyah'}</p>
+              <p style={{ margin: 0 }}>Branch Manager</p>
             </div>
           </div>
         </div>
