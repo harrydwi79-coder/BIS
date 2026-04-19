@@ -46,13 +46,10 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
               width: '120px', 
               height: 'auto', 
               objectFit: 'contain',
-              marginRight: '16px'
+              marginRight: '16px',
+              display: 'block'
             }} 
             crossOrigin="anonymous"
-            onError={(e) => {
-              // Jika gambar tidak ada, sembunyikan agar tidak merusak PDF
-              e.currentTarget.style.display = 'none';
-            }}
           />
           <div style={{ flex: 1, textAlign: 'center' }}>
             <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
