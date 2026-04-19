@@ -37,18 +37,16 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         }}
       >
         {/* Header */}
-        <div style={{ position: 'relative', textAlign: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
-          {/* Posisi Logo di Kiri Atas */}
+        <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
+          {/* Posisi Logo di Kiri */}
           <img 
             src="/logo-bsm.png" 
             alt="Logo BSM" 
             style={{ 
-              position: 'absolute', 
-              left: 0, 
-              top: '16px', 
-              width: '140px', 
+              width: '120px', 
               height: 'auto', 
-              objectFit: 'contain' 
+              objectFit: 'contain',
+              marginRight: '16px'
             }} 
             crossOrigin="anonymous"
             onError={(e) => {
@@ -56,12 +54,15 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
               e.currentTarget.style.display = 'none';
             }}
           />
-          <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
-            PT BERKARYA SINERGI MANDIRI
-          </h1>
-          <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', marginTop: '8px' }}>SURAT TUGAS</h2>
-          <p style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>No. : {surat.nomorSurat}</p>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
+              PT BERKARYA SINERGI MANDIRI
+            </h1>
+            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', marginTop: '8px' }}>SURAT TUGAS</h2>
+            <p style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>No. : {surat.nomorSurat}</p>
+          </div>
         </div>
+
 
         {/* Title / removed old title section to combine with header */}
 
