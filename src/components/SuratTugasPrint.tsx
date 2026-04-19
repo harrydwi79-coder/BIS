@@ -38,19 +38,11 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
       >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
-          {/* Posisi Logo di Kiri */}
-          <img 
-            src="/logo-bsm.png" 
-            alt="Logo BSM" 
-            style={{ 
-              width: '120px', 
-              height: 'auto', 
-              objectFit: 'contain',
-              marginRight: '16px',
-              display: 'block'
-            }} 
-            crossOrigin="anonymous"
-          />
+          {/* Posisi Logo di Kiri - Menggunakan SVG Inline agar 100% muncul */}
+          <svg width="120" height="120" viewBox="0 0 200 200" style={{ marginRight: '16px', display: 'block' }}>
+            <circle cx="100" cy="100" r="90" fill="#2563eb" />
+            <text x="50%" y="55%" fontSize="60" fontWeight="bold" fill="white" textAnchor="middle" dominantBaseline="middle">BSM</text>
+          </svg>
           <div style={{ flex: 1, textAlign: 'center' }}>
             <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
               PT BERKARYA SINERGI MANDIRI
