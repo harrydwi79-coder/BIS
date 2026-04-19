@@ -25,30 +25,15 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
     return (
       <div ref={ref} className="p-12 font-sans w-[210mm] min-h-[297mm] mx-auto shadow-lg print:shadow-none" style={{ backgroundColor: '#ffffff', color: '#000000' }}>
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 mb-6">
-          <div className="w-24 h-16 rounded-full flex items-center justify-center font-bold text-2xl italic flex-shrink-0" style={{ backgroundColor: '#2563eb', color: '#ffffff' }}>
-            BSM
-          </div>
-          <div className="flex-1 text-center">
-            <h1 className="text-2xl font-bold tracking-tight underline border-slate-900 pb-1 inline-block" style={{ borderBottomWidth: '2px' }}>
-              PT BERKARYA SINERGI MANDIRI
-            </h1>
-          </div>
-          <div className="w-24 flex flex-col items-center justify-center flex-shrink-0">
-             <div className="flex items-center gap-1">
-              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>A</div>
-              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>D</div>
-              <div className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]" style={{ borderColor: '#0f172a' }}>S</div>
-            </div>
-            <span className="text-[8px] mt-1 text-slate-600">Sinergi Group</span>
-          </div>
-        </div>
-
-        {/* Title */}
-        <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold mb-2">SURAT TUGAS</h2>
+        <div className="text-center pt-8 pb-4 mb-4">
+          <h1 className="text-2xl font-bold tracking-tight inline-block border-b-2 border-black pb-1 mb-2">
+            PT BERKARYA SINERGI MANDIRI
+          </h1>
+          <h2 className="text-xl font-bold mb-4">SURAT TUGAS</h2>
           <p className="text-sm font-bold">No. : {surat.nomorSurat}</p>
         </div>
+
+        {/* Title / removed old title section to combine with header */}
 
         {/* Body */}
         <div className="space-y-6 text-sm leading-relaxed">
