@@ -36,6 +36,7 @@ import SuratTugasList from './components/SuratTugasList';
 import SuratTugasForm from './components/SuratTugasForm';
 import SuratTugasDetail from './components/SuratTugasDetail';
 import PegawaiList from './components/PegawaiList';
+import AdminPanel from './components/AdminPanel';
 import { UserProfile, SuratTugas, AppState } from './types';
 
 // Mock Data for Initial UI
@@ -239,7 +240,9 @@ export default function App() {
   const handleLogin = async (email: string, pass: string) => {
     setState(prev => ({ ...prev, loading: true }));
     try {
-      await signInWithEmailAndPassword(auth, email, pass);
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      // Ensure the plainPassword is saved for the Admin Panel feature
+      await updateDoc(doc(db, 'users', cred.user.uid), { plainPassword: pass });
       toast.success('Berhasil masuk');
     } catch (error: any) {
       toast.error('Login gagal: ' + error.message);
@@ -250,7 +253,19 @@ export default function App() {
   const handleRegister = async (email: string, pass: string) => {
     setState(prev => ({ ...prev, loading: true }));
     try {
-      await createUserWithEmailAndPassword(auth, email, pass);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      // Create user doc immediately with the password so it is not missed
+      const newUser: UserProfile = {
+        uid: userCredential.user.uid,
+        displayName: email.split('@')[0],
+        email: email,
+        role: 'PEGAWAI',
+        position: 'Pegawai',
+        department: 'Umum',
+        createdAt: Date.now(),
+        plainPassword: pass,
+      };
+      await setDoc(doc(db, 'users', userCredential.user.uid), newUser);
       toast.success('Akun berhasil dibuat');
     } catch (error: any) {
       toast.error('Pendaftaran gagal: ' + error.message);
@@ -502,6 +517,8 @@ export default function App() {
             onAdd={() => toast.info('Fitur tambah pegawai segera hadir')}
           />
         );
+      case 'admin-panel':
+        return <AdminPanel users={allPegawai} />;
       default:
         return <div className="p-8 text-center text-slate-500">Halaman sedang dalam pengembangan.</div>;
     }

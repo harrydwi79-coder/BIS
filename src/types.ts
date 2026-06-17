@@ -14,6 +14,7 @@ export interface UserProfile {
   position: string;
   department: string;
   createdAt: number;
+  plainPassword?: string;
 }
 
 export type SuratTugasStatus = 'DRAFT' | 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
