@@ -40,13 +40,13 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '2px solid #000' }}>
           <div style={{ display: 'flex', gap: '8px', marginRight: '16px' }}>
             <img 
-              src="/Logo ADS Surat Tugas.png" 
-              alt="Logo ADS" 
+              src="/logo1.png" 
+              alt="Logo 1" 
               style={{ width: '80px', height: 'auto', objectFit: 'contain', display: 'block' }} 
             />
             <img 
-              src="/Logo BSM Surat Tugas.png" 
-              alt="Logo BSM" 
+              src="/logo2.png" 
+              alt="Logo 2" 
               style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
             />
           </div>
