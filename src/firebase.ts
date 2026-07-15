@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // Firebase configuration from environment variables or hardcoded fallback
-const config = {
+export const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyCtdo_D42pcJqYKgzeyux63NnBRQjNPyXw",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "pt-bsm-d74f8.firebaseapp.com",
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "pt-bsm-d74f8",
@@ -13,6 +13,6 @@ const config = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-T2ZREFHLSV",
 };
 
-const app = initializeApp(config);
+export const app = initializeApp(config);
 export const db = getFirestore(app, import.meta.env.VITE_FIRESTORE_DATABASE_ID || "(default)");
 export const auth = getAuth(app);

@@ -518,7 +518,7 @@ export default function App() {
           />
         );
       case 'admin-panel':
-        return <AdminPanel users={allPegawai} />;
+        return <AdminPanel users={allPegawai} currentUser={state.user} />;
       default:
         return <div className="p-8 text-center text-slate-500">Halaman sedang dalam pengembangan.</div>;
     }

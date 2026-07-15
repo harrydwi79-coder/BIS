@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { UserProfile, UserRole } from '@/types';
-import { db } from '@/firebase';
+import { db, config } from '@/firebase';
+import { initializeApp, getApps } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, updateDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import { 
@@ -18,9 +20,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 
 interface AdminPanelProps {
   users: UserProfile[];
+  currentUser: UserProfile | null;
 }
 
-export default function AdminPanel({ users }: AdminPanelProps) {
+export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -45,7 +48,19 @@ export default function AdminPanel({ users }: AdminPanelProps) {
            toast.error('Email dan Nama Lengkap wajib diisi');
            return;
         }
-        const newUid = 'user_' + Math.random().toString(36).substr(2, 9);
+        
+        let secondaryApp = getApps().find(app => app.name === 'Secondary');
+        if (!secondaryApp) {
+            secondaryApp = initializeApp(config, 'Secondary');
+        }
+        const secondaryAuth = getAuth(secondaryApp);
+        
+        const pwd = newUser.plainPassword || '123456';
+        
+        // Create the user in Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(secondaryAuth, newUser.email, pwd);
+        const newUid = userCredential.user.uid;
+        
         await setDoc(doc(db, 'users', newUid), {
             uid: newUid,
             email: newUser.email,
@@ -54,10 +69,14 @@ export default function AdminPanel({ users }: AdminPanelProps) {
             department: newUser.department || '',
             role: newUser.role || 'PEGAWAI',
             nik: newUser.nik || '',
-            plainPassword: newUser.plainPassword || '',
+            plainPassword: pwd,
             canApprove: newUser.canApprove || false,
             createdAt: Date.now()
         });
+        
+        // Also sign out the secondary auth so it doesn't leave a lingering session in that instance
+        await secondaryAuth.signOut();
+        
         toast.success('Pengguna berhasil ditambahkan');
         setIsAdding(false);
     } catch (e: any) {
@@ -101,10 +120,12 @@ export default function AdminPanel({ users }: AdminPanelProps) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+        {currentUser?.email === 'bosbesak@perusahaan.com' && (
         <Button onClick={() => { setIsAdding(true); setNewUser({ role: 'PEGAWAI', canApprove: false, email: '', displayName: '', position: '', department: '' }); }} className="bg-primary hover:bg-primary/90">
           <Plus className="w-4 h-4 mr-2" />
           Tambah Pengguna
         </Button>
+        )}
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
@@ -270,6 +291,7 @@ export default function AdminPanel({ users }: AdminPanelProps) {
                 <Label>Departemen</Label>
                 <Input value={editingUser.department} onChange={(e) => setEditingUser({...editingUser, department: e.target.value})} />
               </div>
+              {currentUser?.email === 'bosbesak@perusahaan.com' && (
               <div className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
                   <Label className="text-base">Otoritas Approval</Label>
@@ -280,6 +302,7 @@ export default function AdminPanel({ users }: AdminPanelProps) {
                   onCheckedChange={(c) => setEditingUser({...editingUser, canApprove: c})} 
                 />
               </div>
+              )}
               <div className="space-y-2">
                 <Label>Role</Label>
                 <Select value={editingUser.role} onValueChange={(v: UserRole) => setEditingUser({...editingUser, role: v})}>
