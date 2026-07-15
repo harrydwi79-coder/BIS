@@ -68,13 +68,13 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         <div style={{ fontSize: '15px', lineHeight: '1.625' }}>
           <p style={{ marginBottom: '24px' }}>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #94a3b8', textAlign: 'center', fontSize: '15px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #7ea1d4', textAlign: 'center', fontSize: '15px' }}>
             <thead>
               <tr style={{ backgroundColor: '#ffffff' }}>
-                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Nama</th>
-                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>NIK</th>
-                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Jabatan</th>
-                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Departement</th>
+                <th style={{ border: '1px solid #7ea1d4', padding: '4px 8px', fontWeight: 'bold', width: '25%' }}>Nama</th>
+                <th style={{ border: '1px solid #7ea1d4', padding: '4px 8px', fontWeight: 'bold', width: '25%' }}>NIK</th>
+                <th style={{ border: '1px solid #7ea1d4', padding: '4px 8px', fontWeight: 'bold', width: '25%' }}>Jabatan</th>
+                <th style={{ border: '1px solid #7ea1d4', padding: '4px 8px', fontWeight: 'bold', width: '25%' }}>Departement</th>
               </tr>
             </thead>
             <tbody>
@@ -82,10 +82,10 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.displayName || '-'}</td>
-                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.nik || '-'}</td>
-                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.position || '-'}</td>
-                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.department || '-'}</td>
+                    <td style={{ border: '1px solid #7ea1d4', padding: '4px 8px' }}>{p?.displayName || '-'}</td>
+                    <td style={{ border: '1px solid #7ea1d4', padding: '4px 8px' }}>{p?.nik || '-'}</td>
+                    <td style={{ border: '1px solid #7ea1d4', padding: '4px 8px' }}>{p?.position || '-'}</td>
+                    <td style={{ border: '1px solid #7ea1d4', padding: '4px 8px' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
