@@ -27,7 +27,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         ref={ref} 
         style={{ 
           padding: '48px', 
-          fontFamily: 'sans-serif', 
+          fontFamily: '"Times New Roman", Times, serif', 
           width: '210mm', 
           minHeight: '297mm', 
           margin: '0 auto', 
@@ -37,23 +37,23 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         }}
       >
         {/* Header Block */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '32px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '2px solid #000' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '1.5px solid #000' }}>
           <img 
             src="/logo1.png" 
-            alt="Logo 1" 
-            style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+            alt="Logo BSM" 
+            style={{ width: '120px', height: 'auto', objectFit: 'contain', display: 'block' }} 
           />
           <div style={{ flex: 1, textAlign: 'center', padding: '0 16px' }}>
-            <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
+            <h1 style={{ fontSize: '26px', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", Times, serif' }}>
               PT BERKARYA SINERGI MANDIRI
             </h1>
-            <p style={{ fontSize: '12px', fontStyle: 'italic', margin: '4px 0 0 0' }}>
-              Graha ADS Sinergi, Jl. Raya Kebayoran No. 10, Jakarta Selatan
+            <p style={{ fontSize: '13px', fontStyle: 'italic', margin: '4px 0 0 0', fontFamily: '"Times New Roman", Times, serif' }}>
+              Vivo Business Park Blok I No. 17 Jl. Pembangunan 3, Neglasari, Kota Tangerang Prov.
             </p>
           </div>
           <img 
             src="/logo2.png" 
-            alt="Logo 2" 
+            alt="Logo ADS" 
             style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
           />
         </div>
@@ -61,20 +61,20 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         {/* Title Block */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: '0 0 8px 0', textDecoration: 'underline' }}>SURAT TUGAS</h2>
-          <p style={{ fontSize: '14px', margin: 0 }}>No. : {surat.nomorSurat}</p>
+          <p style={{ fontSize: '14px', margin: 0, fontWeight: 'bold' }}>No. : {surat.nomorSurat}</p>
         </div>
 
         {/* Body */}
-        <div style={{ fontSize: '14px', lineHeight: '1.625' }}>
+        <div style={{ fontSize: '15px', lineHeight: '1.625' }}>
           <p style={{ marginBottom: '24px' }}>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #cbd5e1', textAlign: 'center', fontSize: '14px' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #94a3b8', textAlign: 'center', fontSize: '15px' }}>
             <thead>
-              <tr style={{ backgroundColor: '#f8fafc' }}>
-                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Nama</th>
-                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>NIK</th>
-                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Jabatan</th>
-                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Departement</th>
+              <tr style={{ backgroundColor: '#ffffff' }}>
+                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Nama</th>
+                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>NIK</th>
+                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Jabatan</th>
+                <th style={{ border: '1px solid #94a3b8', padding: '6px 16px', fontWeight: 'bold', width: '25%' }}>Departement</th>
               </tr>
             </thead>
             <tbody>
@@ -82,17 +82,17 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.displayName || '-'}</td>
-                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.nik || '-'}</td>
-                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.position || '-'}</td>
-                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.department || '-'}</td>
+                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.displayName || '-'}</td>
+                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.nik || '-'}</td>
+                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.position || '-'}</td>
+                    <td style={{ border: '1px solid #94a3b8', padding: '6px 16px' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
 
-          <div style={{ margin: '32px 40px 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ margin: '32px 40px 0', display: 'flex', flexDirection: 'column', gap: '4px' }}>
             <div style={{ display: 'flex', gap: '16px' }}>
               <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Tanggal Berangkat <span>:</span></span>
               <span>{formatDate(surat.tanggalMulai)}</span>
@@ -107,7 +107,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
               <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Keperluan <span>:</span></span>
-              <span style={{ maxWidth: '350px' }}>{surat.perihal}</span>
+              <span style={{ maxWidth: '400px' }}>{surat.perihal}</span>
             </div>
           </div>
 
