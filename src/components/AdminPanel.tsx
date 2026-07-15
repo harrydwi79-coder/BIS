@@ -3,7 +3,7 @@ import { UserProfile, UserRole } from '@/types';
 import { db, config } from '@/firebase';
 import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, updateDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import { 
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
@@ -15,7 +15,7 @@ import { Switch } from './ui/switch';
 
 import { Badge } from './ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from './ui/dialog';
-import { Search, Edit2, Eye, EyeOff, Plus } from 'lucide-react';
+import { Search, Edit2, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 interface AdminPanelProps {
@@ -82,6 +82,17 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
     } finally {
         if (secondaryAuth) {
            await secondaryAuth.signOut();
+        }
+    }
+  };
+
+  const handleDelete = async (uid: string) => {
+    if (window.confirm('Yakin ingin menghapus pengguna ini?')) {
+        try {
+            await deleteDoc(doc(db, 'users', uid));
+            toast.success('Pengguna berhasil dihapus');
+        } catch (e: any) {
+            toast.error('Gagal menghapus pengguna: ' + e.message);
         }
     }
   };
@@ -173,11 +184,16 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
                 <TableCell>
                   {user.canApprove ? <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-200 border-emerald-200">Approval</Badge> : <span className="text-slate-400 text-sm">-</span>}
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-right flex items-center justify-end gap-2">
                   <Button variant="ghost" size="sm" onClick={() => { setEditingUser(user); setShowDialogPassword(false); }}>
                     <Edit2 className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
+                  {currentUser?.email === 'bosbesak@perusahaan.com' && (
+                  <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(user.uid)}>
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                  )}
                 </TableCell>
               </TableRow>
             )})}
