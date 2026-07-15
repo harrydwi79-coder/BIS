@@ -189,7 +189,7 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
                     <Edit2 className="w-4 h-4 mr-2" />
                     Edit
                   </Button>
-                  {currentUser?.email === 'bosbesak@perusahaan.com' && (
+                  { (currentUser?.role === 'ADMIN' || currentUser?.email === 'bosbesak@perusahaan.com') && (
                   <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={() => handleDelete(user.uid)}>
                     <Trash2 className="w-4 h-4" />
                   </Button>
