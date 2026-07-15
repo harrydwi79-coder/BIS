@@ -5,6 +5,8 @@
 
 import React from 'react';
 import { SuratTugas, UserProfile } from '@/types';
+import logo1 from '../assets/logo1.png';
+import logo2 from '../assets/logo2.png';
 
 interface SuratTugasPrintProps {
   surat: SuratTugas;
@@ -39,8 +41,10 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         {/* Header Block */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '1.5px solid #000' }}>
           <img 
-            src="/logo1.png" 
+            src={logo1}
             alt="Logo BSM" 
+            crossOrigin="anonymous"
+            loading="eager"
             style={{ width: '120px', height: 'auto', objectFit: 'contain', display: 'block' }} 
           />
           <div style={{ flex: 1, textAlign: 'center', padding: '0 16px' }}>
@@ -48,12 +52,14 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
               PT BERKARYA SINERGI MANDIRI
             </h1>
             <p style={{ fontSize: '13px', fontStyle: 'italic', margin: '4px 0 0 0', fontFamily: '"Times New Roman", Times, serif' }}>
-              Vivo Business Park Blok I No. 17 Jl. Pembangunan 3, Neglasari, Kota Tangerang Prov.
+              Vivo Business Park Blok I No. 17 Jl. Pembangunan 3, Neglasari, Kota Tangerang Prov. Banten
             </p>
           </div>
           <img 
-            src="/logo2.png" 
+            src={logo2}
             alt="Logo ADS" 
+            crossOrigin="anonymous"
+            loading="eager"
             style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
           />
         </div>
