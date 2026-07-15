@@ -36,42 +36,47 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
           boxSizing: 'border-box'
         }}
       >
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '16px' }}>
-          <img 
-            src="/logo-bsm.png" 
-            alt="Logo BSM" 
-            style={{ 
-              width: '120px', 
-              height: 'auto', 
-              objectFit: 'contain',
-              marginRight: '16px',
-              display: 'block'
-            }} 
-          />
+        {/* Header Block */}
+        <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '2px solid #000' }}>
+          <div style={{ display: 'flex', gap: '8px', marginRight: '16px' }}>
+            <img 
+              src="/Logo ADS Surat Tugas.png" 
+              alt="Logo ADS" 
+              style={{ width: '80px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+            />
+            <img 
+              src="/Logo BSM Surat Tugas.png" 
+              alt="Logo BSM" 
+              style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+            />
+          </div>
           <div style={{ flex: 1, textAlign: 'center' }}>
-            <h1 style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: '-0.025em', display: 'inline-block', borderBottom: '2px solid #000', paddingBottom: '4px', marginBottom: '8px', margin: 0 }}>
+            <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
               PT BERKARYA SINERGI MANDIRI
             </h1>
-            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', marginTop: '8px' }}>SURAT TUGAS</h2>
-            <p style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>No. : {surat.nomorSurat}</p>
+            <p style={{ fontSize: '12px', fontStyle: 'italic', margin: '4px 0 0 0' }}>
+              Graha ADS Sinergi, Jl. Raya Kebayoran No. 10, Jakarta Selatan
+            </p>
           </div>
         </div>
 
-
-        {/* Title / removed old title section to combine with header */}
+        {/* Title Block */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 'bold', margin: '0 0 8px 0', textDecoration: 'underline' }}>SURAT TUGAS</h2>
+          <p style={{ fontSize: '14px', margin: 0 }}>No. : {surat.nomorSurat}</p>
+        </div>
 
         {/* Body */}
         <div style={{ fontSize: '14px', lineHeight: '1.625' }}>
           <p style={{ marginBottom: '24px' }}>Dengan ini kami menugaskan untuk melakukan Perjalanan/Tugas Dinas kepada :</p>
 
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #000000', textAlign: 'center', fontSize: '14px', borderColor: '#000000' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #cbd5e1', textAlign: 'center', fontSize: '14px' }}>
             <thead>
-              <tr>
-                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Nama</th>
-                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>NIK</th>
-                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Jabatan</th>
-                <th style={{ border: '1px solid #000000', padding: '4px 16px', fontWeight: 'bold', width: '25%', borderColor: '#000000' }}>Departement</th>
+              <tr style={{ backgroundColor: '#f8fafc' }}>
+                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Nama</th>
+                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>NIK</th>
+                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Jabatan</th>
+                <th style={{ border: '1px solid #cbd5e1', padding: '8px 16px', fontWeight: 'bold', width: '25%' }}>Departement</th>
               </tr>
             </thead>
             <tbody>
@@ -79,41 +84,32 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
                 const p = pegawaiDetails.find((peg) => peg.uid === id);
                 return (
                   <tr key={id}>
-                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.displayName || '-'}</td>
-                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.nik || '-'}</td>
-                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.position || '-'}</td>
-                    <td style={{ border: '1px solid #000000', padding: '4px 16px', borderColor: '#000000' }}>{p?.department || '-'}</td>
+                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.displayName || '-'}</td>
+                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.nik || '-'}</td>
+                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.position || '-'}</td>
+                    <td style={{ border: '1px solid #cbd5e1', padding: '8px 16px' }}>{p?.department || '-'}</td>
                   </tr>
                 );
               })}
-              {/* Fill empty rows if needed to match template */}
-              {[...Array(Math.max(0, 4 - surat.pegawaiIds.length))].map((_, i) => (
-                <tr key={`empty-${i}`}>
-                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
-                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
-                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
-                  <td style={{ border: '1px solid #000000', padding: '4px 16px', height: '24px', borderColor: '#000000' }}></td>
-                </tr>
-              ))}
             </tbody>
           </table>
 
-          <div style={{ margin: '32px 80px 0', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <div style={{ margin: '32px 40px 0', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tanggal Berangkat <span>:</span></span>
+              <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Tanggal Berangkat <span>:</span></span>
               <span>{formatDate(surat.tanggalMulai)}</span>
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tanggal Kembali <span>:</span></span>
+              <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Tanggal Kembali <span>:</span></span>
               <span>{formatDate(surat.tanggalSelesai)}</span>
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Tempat Tujuan <span>:</span></span>
+              <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Tempat Tujuan <span>:</span></span>
               <span>{surat.tempat}</span>
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
-              <span style={{ width: '144px', display: 'flex', justifyContent: 'space-between' }}>○ Keperluan <span>:</span></span>
-              <span style={{ maxWidth: '300px' }}>{surat.perihal}</span>
+              <span style={{ width: '160px', display: 'flex', justifyContent: 'space-between' }}>o Keperluan <span>:</span></span>
+              <span style={{ maxWidth: '350px' }}>{surat.perihal}</span>
             </div>
           </div>
 
