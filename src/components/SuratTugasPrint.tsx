@@ -37,20 +37,13 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
         }}
       >
         {/* Header Block */}
-        <div style={{ display: 'flex', alignItems: 'center', paddingTop: '32px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '2px solid #000' }}>
-          <div style={{ display: 'flex', gap: '8px', marginRight: '16px' }}>
-            <img 
-              src="/logo1.png" 
-              alt="Logo 1" 
-              style={{ width: '80px', height: 'auto', objectFit: 'contain', display: 'block' }} 
-            />
-            <img 
-              src="/logo2.png" 
-              alt="Logo 2" 
-              style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
-            />
-          </div>
-          <div style={{ flex: 1, textAlign: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '32px', paddingBottom: '16px', marginBottom: '24px', borderBottom: '2px solid #000' }}>
+          <img 
+            src="/logo1.png" 
+            alt="Logo 1" 
+            style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+          />
+          <div style={{ flex: 1, textAlign: 'center', padding: '0 16px' }}>
             <h1 style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
               PT BERKARYA SINERGI MANDIRI
             </h1>
@@ -58,6 +51,11 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
               Graha ADS Sinergi, Jl. Raya Kebayoran No. 10, Jakarta Selatan
             </p>
           </div>
+          <img 
+            src="/logo2.png" 
+            alt="Logo 2" 
+            style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+          />
         </div>
 
         {/* Title Block */}
