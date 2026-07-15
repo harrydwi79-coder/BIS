@@ -218,7 +218,7 @@ export default function SuratTugasDetail({
               </div>
             </div>
 
-            {surat.status === 'PENDING' && (user?.role === 'ATASAN' || user?.role === 'ADMIN' || user?.email === 'bosbesak@perusahaan.com') && (
+            {surat.status === 'PENDING' && (user?.canApprove || user?.role === 'ATASAN' || user?.role === 'ADMIN' || user?.email === 'bosbesak@perusahaan.com') && (
               <div className="flex items-center gap-3 pt-4">
                 <Button 
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700"

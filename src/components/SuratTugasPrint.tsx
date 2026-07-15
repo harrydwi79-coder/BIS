@@ -124,7 +124,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
           <div style={{ textAlign: 'center', width: '256px' }}>
             <p style={{ marginBottom: '96px', margin: 0 }}>Pemberi Tugas,</p>
             <div style={{ marginTop: '96px' }}>
-              <p style={{ fontWeight: '500', margin: 0 }}>{surat.approverName || 'Apriadi Firmansyah'}</p>
+              <p style={{ fontWeight: '500', margin: 0 }}>{surat.approverName && surat.approverName !== 'User' ? surat.approverName : 'Apriadi Firmansyah'}</p>
               <p style={{ margin: 0 }}>Branch Manager</p>
             </div>
           </div>
