@@ -43,6 +43,7 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
   };
 
   const handleAdd = async () => {
+    let secondaryAuth: any = null;
     try {
         if (!newUser.email || !newUser.displayName) {
            toast.error('Email dan Nama Lengkap wajib diisi');
@@ -53,7 +54,7 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
         if (!secondaryApp) {
             secondaryApp = initializeApp(config, 'Secondary');
         }
-        const secondaryAuth = getAuth(secondaryApp);
+        secondaryAuth = getAuth(secondaryApp);
         
         const pwd = newUser.plainPassword || '123456';
         
@@ -74,13 +75,14 @@ export default function AdminPanel({ users, currentUser }: AdminPanelProps) {
             createdAt: Date.now()
         });
         
-        // Also sign out the secondary auth so it doesn't leave a lingering session in that instance
-        await secondaryAuth.signOut();
-        
         toast.success('Pengguna berhasil ditambahkan');
         setIsAdding(false);
     } catch (e: any) {
         toast.error('Gagal menambah pengguna: ' + e.message);
+    } finally {
+        if (secondaryAuth) {
+           await secondaryAuth.signOut();
+        }
     }
   };
 
