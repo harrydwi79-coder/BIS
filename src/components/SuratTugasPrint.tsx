@@ -43,7 +43,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
             src={logo1Base64}
             alt="Logo BSM" 
             loading="eager"
-            style={{ width: '120px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+            style={{ width: '120px', height: 'auto', display: 'block' }} 
           />
           <div style={{ flex: 1, textAlign: 'center', padding: '0 16px' }}>
             <h1 style={{ fontSize: '26px', fontWeight: 'bold', margin: 0, fontFamily: '"Times New Roman", Times, serif' }}>
@@ -57,7 +57,7 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
             src={logo2Base64}
             alt="Logo ADS" 
             loading="eager"
-            style={{ width: '100px', height: 'auto', objectFit: 'contain', display: 'block' }} 
+            style={{ width: '100px', height: 'auto', display: 'block' }} 
           />
         </div>
 
