@@ -34,13 +34,13 @@ export default function Layout({ children, user, onLogout, activeTab, setActiveT
     { id: 'buat', label: 'Pengajuan Surat Tugas', icon: FileText, roles: ['ADMIN', 'ATASAN', 'PEGAWAI'] },
     { id: 'histori', label: 'Histori', icon: History, roles: ['ADMIN', 'ATASAN', 'PEGAWAI'] },
     { id: 'pegawai', label: 'Data Pegawai', icon: Users, roles: ['ADMIN'] },
-    { id: 'admin-panel', label: 'Admin Panel', icon: Users, roles: [], emailOnly: 'bosbesak@perusahaan.com' },
+    { id: 'admin-panel', label: 'Admin Panel', icon: Users, roles: ['ADMIN'], emailOnly: 'bosbesak@perusahaan.com' },
   ];
 
   const filteredNavItems = navItems.filter(item => 
     user && (
-      (item.emailOnly === user.email) || 
-      (!item.emailOnly && item.roles.includes(user.role))
+      (item.emailOnly && item.emailOnly === user.email) || 
+      (item.roles.includes(user.role))
     )
   );
 
