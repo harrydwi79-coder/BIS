@@ -219,14 +219,14 @@ export default function App() {
     if (state.user.role === 'ADMIN') {
       const pegawaiQuery = query(collection(db, 'users'), orderBy('displayName', 'asc'));
       unsubscribePegawai = onSnapshot(pegawaiQuery, (snapshot) => {
-        const docs = snapshot.docs.map(doc => doc.data() as UserProfile);
+        const docs = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() } as UserProfile));
         setAllPegawai(docs);
       });
     } else {
       // Still need all pegawai for the form if ATASAN
       const pegawaiQuery = query(collection(db, 'users'), orderBy('displayName', 'asc'));
       unsubscribePegawai = onSnapshot(pegawaiQuery, (snapshot) => {
-        const docs = snapshot.docs.map(doc => doc.data() as UserProfile);
+        const docs = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() } as UserProfile));
         setAllPegawai(docs);
       });
     }
@@ -371,6 +371,8 @@ export default function App() {
         status: 'APPROVED',
         approverId: state.user?.uid || '',
         approverName: state.user?.displayName || '',
+        approverEmail: state.user?.email || '',
+        approverPosition: state.user?.position || '',
         history: [
           ...(currentSurat?.history || []),
           {

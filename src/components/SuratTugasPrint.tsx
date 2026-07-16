@@ -27,16 +27,34 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
     
     const approver = pegawaiDetails.find((peg) => {
       if (surat.approverId && peg.uid === surat.approverId) return true;
-      const pegName = peg.displayName.toLowerCase();
+      const pegName = (peg.displayName || '').toLowerCase();
       const searchName = resolvedApproverName.toLowerCase();
       return pegName === searchName || pegName.includes(searchName) || searchName.includes(pegName);
     });
 
     let approverPosition = 'Branch Manager';
-    if (approver?.position) {
+    if (surat.approverPosition) {
+      approverPosition = surat.approverPosition;
+    } else if (approver?.position) {
       approverPosition = approver.position;
-    } else if (resolvedApproverName.toLowerCase().includes('juniansyah')) {
+    }
+
+    const approverLower = resolvedApproverName.toLowerCase();
+    const approverEmailLower = (surat.approverEmail || approver?.email || '').toLowerCase();
+
+    if (
+      approverLower.includes('juniansyah') || 
+      approverEmailLower.includes('juniansyah') ||
+      surat.approverId === '70QA3jvf5Jeb2MYmTg30SzljqCG2'
+    ) {
       approverPosition = 'Service Supervisor';
+    } else if (
+      approverLower.includes('apriadi') || 
+      approverLower.includes('firmansyah') ||
+      approverEmailLower.includes('apriadi.firmansyah') ||
+      surat.approverId === 'dEAI6Oq7fvcREdqsfLo0ueUlVfp1'
+    ) {
+      approverPosition = 'Branch Manager';
     }
 
     return (

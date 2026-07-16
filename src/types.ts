@@ -36,6 +36,8 @@ export interface SuratTugas {
   pembuatName: string;
   approverId?: string;
   approverName?: string;
+  approverEmail?: string;
+  approverPosition?: string;
   status: SuratTugasStatus;
   createdAt: number;
   updatedAt: number;
