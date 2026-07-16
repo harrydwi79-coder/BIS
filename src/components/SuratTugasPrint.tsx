@@ -23,38 +23,54 @@ export const SuratTugasPrint = React.forwardRef<HTMLDivElement, SuratTugasPrintP
       });
     };
 
-    const resolvedApproverName = surat.approverName && surat.approverName !== 'User' ? surat.approverName : 'Apriadi Firmansyah';
-    
-    const approver = pegawaiDetails.find((peg) => {
+    // Resolve name
+    let resolvedApproverName = 'Apriadi Firmansyah';
+    if (surat.approverName && surat.approverName !== 'User') {
+      resolvedApproverName = surat.approverName;
+    }
+
+    // Default position is Branch Manager
+    let approverPosition = 'Branch Manager';
+
+    // Find matched profile in pegawaiDetails
+    const matchedProfile = pegawaiDetails.find((peg) => {
       if (surat.approverId && peg.uid === surat.approverId) return true;
       const pegName = (peg.displayName || '').toLowerCase();
       const searchName = resolvedApproverName.toLowerCase();
       return pegName === searchName || pegName.includes(searchName) || searchName.includes(pegName);
     });
 
-    let approverPosition = 'Branch Manager';
-    if (surat.approverPosition) {
-      approverPosition = surat.approverPosition;
-    } else if (approver?.position) {
-      approverPosition = approver.position;
-    }
-
+    // Check email or profile email
+    const approverEmail = (surat.approverEmail || matchedProfile?.email || '').toLowerCase();
     const approverLower = resolvedApproverName.toLowerCase();
-    const approverEmailLower = (surat.approverEmail || approver?.email || '').toLowerCase();
+    const approverId = surat.approverId || '';
 
+    // Direct and robust matching for "RM Juniansyah" -> "Service Supervisor"
     if (
-      approverLower.includes('juniansyah') || 
-      approverEmailLower.includes('juniansyah') ||
-      surat.approverId === '70QA3jvf5Jeb2MYmTg30SzljqCG2'
+      approverLower.includes('juniansyah') ||
+      approverEmail.includes('juniansyah') ||
+      approverId === '70QA3jvf5Jeb2MYmTg30SzljqCG2' ||
+      (matchedProfile && (matchedProfile.displayName.toLowerCase().includes('juniansyah') || matchedProfile.email.toLowerCase().includes('juniansyah')))
     ) {
+      resolvedApproverName = 'RM Juniansyah';
       approverPosition = 'Service Supervisor';
     } else if (
-      approverLower.includes('apriadi') || 
+      approverLower.includes('apriadi') ||
       approverLower.includes('firmansyah') ||
-      approverEmailLower.includes('apriadi.firmansyah') ||
-      surat.approverId === 'dEAI6Oq7fvcREdqsfLo0ueUlVfp1'
+      approverEmail.includes('apriadi') ||
+      approverEmail.includes('firmansyah') ||
+      approverId === 'dEAI6Oq7fvcREdqsfLo0ueUlVfp1' ||
+      (matchedProfile && (matchedProfile.displayName.toLowerCase().includes('apriadi') || matchedProfile.email.toLowerCase().includes('apriadi')))
     ) {
+      resolvedApproverName = 'Apriadi Firmansyah';
       approverPosition = 'Branch Manager';
+    } else {
+      // General fallback if someone else approves
+      if (surat.approverPosition) {
+        approverPosition = surat.approverPosition;
+      } else if (matchedProfile?.position) {
+        approverPosition = matchedProfile.position;
+      }
     }
 
     return (
